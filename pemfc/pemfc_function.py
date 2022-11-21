@@ -155,16 +155,11 @@ def pemfc_gas_flux(node1, node2, gas_props):
         + f2*node2['eps_g']**node2['n_Brugg'])
     D_k_eff = eps_g*gas_props['D_k']/tau_fac
     
-    d_part = f1*node1['d_solid'] + f2*node2['d_solid']
-    K_g = eps_g**3*d_part**2*tau_fac**(-2)*(1-eps_g)**(-2)/72
+    # Distance between node centers:
+    dY =0.5*(node1['dy'] + node2['dy'])
 
-    dY = 0.5*(node1['dy'] + node2['dy'])
-
-    V_conv = -K_g*(P_2 - P_1)/dY/gas_props['mu']
-    V_k_diff = -D_k_eff*(X_k_2 - X_k_1)/dY/X_k_int
-
-    V_k  = V_conv + V_k_diff
-
-    N_k = C_int*X_k_int*V_k
+    # Note: this is not correct.  It is a temporary placeholder until after HW 
+    # 6 is due :)
+    N_k = D_k_eff*(node1['C_k'] - node2['C_k'])/dY
 
     return N_k
